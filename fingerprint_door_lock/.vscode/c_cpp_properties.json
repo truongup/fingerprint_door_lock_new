@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:/embedded/fingerprint-door-lock/sw/fingerprint_door_lock/libraries/memory_app",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/libraries/SPIFFS/src",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/libraries/FS/src",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/cores/esp32",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/dio_qspi/include",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_common/include",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/port/xtensa/include",
+                "C:/Users/dell/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_wifi/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/Users/dell/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "windows-gcc-x86"
+        }
+    ],
+    "version": 4
+}

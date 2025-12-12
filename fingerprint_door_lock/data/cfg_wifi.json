@@ -1,0 +1,12 @@
+{
+  "station": {  
+    "wifi_name": "cfg",
+    "wifi_pw": "cfg"
+  },
+  
+  "access_point":{
+    "wifi_name": "FINGER_DOOR_LOCK",
+    "wifi_pw":  "123456789",
+    "web_port": 80
+  }
+}

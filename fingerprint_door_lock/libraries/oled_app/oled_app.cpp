@@ -28,39 +28,90 @@ void oled_wifi_connected(void) {
 }
 
 // UI IDLE
-void oled_idle(void) {
-    oled_sh110x_clear();
-    oled_wifi_connected();
-    oled_sh110x_display();
+void oled_idle(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+    
+    oled_monochrome_final("Ready");
 }
 
 // UI FINGER
-void oled_finger_start(void) {
-    oled_sh110x_clear();
+void oled_finger_start(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+    
     oled_draw_image(0, 34, FinPr_start_bits ,FinPr_start_width, FinPr_start_height, SH110X_INVERSE);
     oled_sh110x_display();
 }
 
-void oled_finger_invalid(void) {
-    oled_sh110x_clear();
+void oled_finger_invalid(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+
     oled_draw_image(0, 34, FinPr_invalid_bits ,FinPr_invalid_width, FinPr_invalid_height, SH110X_INVERSE);
     oled_sh110x_display();
 }
 
-void oled_finger_valid(void) {
-    oled_sh110x_clear();
+void oled_finger_valid(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+
     oled_draw_image(0, 54, FinPr_valid_bits ,FinPr_valid_width, FinPr_valid_height, SH110X_INVERSE);
     oled_sh110x_display();
 }
 
-void oled_finger_scan(void) {
-    oled_sh110x_clear();
+void oled_finger_scan(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+
     oled_draw_image(5, 60, FinPr_scan_bits ,FinPr_scan_width, FinPr_scan_height, SH110X_INVERSE);
     oled_sh110x_display();
 }
 
-void oled_finger_fail(void) {
-    oled_sh110x_clear();
+void oled_finger_fail(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+
     oled_draw_image(0, 74, FinPr_failed_bits ,FinPr_failed_width, FinPr_failed_height, SH110X_INVERSE);
     oled_sh110x_display();
+}
+
+// Text
+void oled_text(String content, uint8_t sz, uint8_t x, uint8_t y) {
+    oled_sh110x_text(content, sz, x, y);
+}
+
+// RFID
+void oled_rfid_scan(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+    oled_sh110x_text("RFID SCAN", 2, 5, 20);
+}
+
+void oled_rfid_valid(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+    oled_sh110x_rfid_valid();
+}
+
+void oled_rfid_invalid(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+    oled_sh110x_rfid_invalid();
+}
+
+// Wait Process
+void oled_add_user_wait_process(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+    oled_sh110x_process(95, 10, 20, 10);
+    oled_sh110x_text("Wating...", 1, 50, 50);
+}
+
+// ADMIN
+void oled_admin_open_door(uint8_t clear) {
+    if(clear == OLED_CLEAR)
+        oled_sh110x_clear();
+    
+    oled_sh110x_admin_open_door();
 }

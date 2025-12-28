@@ -3,7 +3,7 @@
 int finger_as608_init(void) {
     // redefine UART 
     fingerSerial.begin(FINGER_PRINT_BAUDRATE, SERIAL_8N1, FINGER_PRINT_RX_PIN, FINGER_PRINT_TX_PIN);
-    finger.begin(FINGER_PRINT_BAUDRATE);
+    // finger.begin(FINGER_PRINT_BAUDRATE);
 
     if (finger.verifyPassword()) {
         log_d("Found fingerprint sensor!");
@@ -128,7 +128,8 @@ int finger_search(uint8_t *finger_id) {
     int ret = finger.fingerSearch();
     if (ret == FINGERPRINT_OK) {
         UIEvent event_ui = { 
-            .type = UI_EVENT_FINGER_VALID 
+            .type = UI_EVENT_FINGER_VALID,
+            .clear_ui = CLEAR_UI
         };
         xQueueSend(uiEventQueue, &event_ui, 0);
 
@@ -144,7 +145,8 @@ int finger_search(uint8_t *finger_id) {
 
     else if (ret == FINGERPRINT_NOTFOUND) {
         UIEvent event_ui = { 
-            .type = UI_EVENT_FINGER_INVALID 
+            .type = UI_EVENT_FINGER_INVALID,
+            .clear_ui =CLEAR_UI
         };
         xQueueSend(uiEventQueue, &event_ui, 0);
 

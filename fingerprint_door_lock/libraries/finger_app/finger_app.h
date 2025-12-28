@@ -3,6 +3,7 @@
 
 #include "finger_as608.h"
 #include "oled_app.h"
+#include "gpio_app.h"
 
 int finger_app_init(void);
 int finger_app_enroll(uint8_t finger_enroll_id);

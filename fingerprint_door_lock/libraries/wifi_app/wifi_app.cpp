@@ -14,7 +14,7 @@ void wifi_app_init(void) {
     WiFi.begin(info_user.wifi_station.name, info_user.wifi_station.pw);
 
     while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
+        vTaskDelay(500);
         log_d(".");
     }
 

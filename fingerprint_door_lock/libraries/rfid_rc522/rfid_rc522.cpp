@@ -51,9 +51,8 @@ void rc522_get_nuid(void) {
     }
 }
 
-int rc522_compare(char *buffer) {
+int rc522_compare(String *buffer) {
     for (int i = RFID_START_AT_EEPROM; i < NUMBER_OF_CARD_RFID; i++) {
-
         bool isOK = true;   // Biến xác định thẻ từ đúng
 
         for (int j = 0; j < RFID_SIZE_CARD; j++) {
@@ -65,10 +64,58 @@ int rc522_compare(char *buffer) {
             *buffer += *(readNUID + (RFID_SIZE_CARD - j - 1));
         }
 
-        if(isOK) {
-            return FUNCTION_OK;
-        }
+        if(isOK) return FUNCTION_OK;
     }
 
     return FUNCTION_FAIL;
+
+}
+
+int rc522_eeprom_empty(int *index_memory) {
+    for (int i = RFID_START_AT_EEPROM; i < NUMBER_OF_CARD_RFID; i++) {
+        // Kiểm tra xem bộ nhớ tại vị trí i có đang trống không
+        bool empty = true;
+        for (int j = 0; j < RFID_SIZE_CARD; j++) {
+            if (EEPROM.read(i * RFID_SIZE_CARD + j) != 0xFF) {
+                empty = false;
+                break;
+            }
+        }
+        if(empty) {
+            *index_memory = i;      // lấy vị trí trống đầu tiên trong bộ nhớ eeprom
+            return EEPROM_IS_EMPTY;
+        } 
+    }
+
+    return EEPROM_NO_EMPTY;
+
+    
+
+    return EEPROM_NO_EMPTY;
+}
+
+int rc522_eeprom_save(String *buffer, int index_memory) {
+    // log ra thử readNUID
+    // Serial.print("RFID UID (HEX): ");
+    // for (uint8_t i = 0; i < RFID_SIZE_CARD; i++) {
+    //     if (readNUID[i] < 0x10) Serial.print("0");   // thêm 0 cho đẹp
+    //     Serial.print(readNUID[i], HEX);
+    //     if (i < RFID_SIZE_CARD - 1) Serial.print(":");
+    // }
+    // Serial.println();
+
+    for (int j = 0; j < RFID_SIZE_CARD; j++) {
+        // Lưu trong eeprom thì sẽ lưu theo chiều thuận của UID
+        EEPROM.write(index_memory * RFID_SIZE_CARD + j, readNUID[j]);
+
+        // lưu vào buffer (on firebase) thì sẽ lưu ngược lại
+        *buffer += *(readNUID + (RFID_SIZE_CARD - j - 1));
+    }
+    // buffer[RFID_SIZE_CARD] = '\0';
+
+    // commit lên bộ nhớ eeprom
+    EEPROM.commit(); 
+
+    log_d("readNUID: %s", readNUID);
+    return FUNCTION_OK;
 }

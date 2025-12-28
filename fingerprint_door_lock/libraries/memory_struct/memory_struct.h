@@ -62,6 +62,8 @@ typedef struct {
     char usr_opened_by_finger[128];
     char usr_opened_by_rfid[128];
     
+    // history time for admin
+    char admin_time_open[128];
 } firebase_path_t;
 
 extern firebase_path_t firebase_path;
@@ -79,25 +81,38 @@ typedef enum {
     UI_EVENT_FINGER_FAIL,
     UI_EVENT_FINGER_SCAN,
     // thêm các event khác nếu cần
+
+    UI_EVENT_RFID_SCAN,
+    UI_EVENT_RFID_VALID,
+    UI_EVENT_RFID_INVALID,
+
+    UI_EVENT_ADMIN_OPEN_DOOR,
+
+    UI_EVENT_WAIT_FINAL_ADD_USER,   // đợi web gửi tín hiệu kết thúc (process bar)
+
+    UI_EVENT_IDLE,                  // giao diện khi bình thường
 } UIEventType;
 
+#define NON_CLEAR_UI 0
+#define CLEAR_UI     1
 typedef struct {
     UIEventType type;
+    uint8_t     clear_ui;
     // Có thể thêm dữ liệu khác nếu cần
 } UIEvent;
 
 extern QueueHandle_t uiEventQueue;
 extern long long     ui_timeout;
 extern uint8_t       ui_active_event;
-#define UI_TIMEOUT   1500  // 1.5s
+#define UI_TIMEOUT   2500  // 1.5s
 
 /*  =========================== FLAG BLOCK ===========================    */
 // Các cờ chặn (block) tính năng
 typedef enum {
-  FLAG_UN_BLOCK,  
-  FLAG_BLOCK_IDENTIFY,  
-  FLAG_BLOCK_FIREBASE_TRIGGER, 
-  FLAG_BLOCK_UI              
+  FLAG_UN_BLOCK = 0,  
+  FLAG_BLOCK_IDENTIFY = 1,  
+  FLAG_BLOCK_FIREBASE_TRIGGER = 2, 
+  FLAG_BLOCK_UI = 3              
 } flag_block_t;
 
 extern flag_block_t flag_block;
